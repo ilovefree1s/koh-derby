@@ -51,6 +51,7 @@ body.ingame #b-fs2,body.ingame #mvol{display:none!important}
 .gcard{max-width:520px!important;margin:0 auto;max-height:44vh;overflow-y:auto;padding:10px 12px!important}
 .gcard label{margin:8px 0 4px!important}.gcard .seg button{height:34px!important;font-size:13px!important}.gcard .sw button{width:26px;height:26px}.gcard .hint{margin-top:8px}
 .gseg6 button{padding:0 2px!important;font-size:12px!important}
+.gseg6{flex-wrap:wrap}
 #g-st{display:grid;grid-template-columns:auto 1fr;gap:3px 8px;font-size:11px;margin-top:8px;align-items:center}#g-st i{display:block;height:6px;border-radius:3px;background:#e0a33a}#g-st span{opacity:.75}
 .gtop{display:flex;align-items:center;justify-content:space-between}.gtop b{font-size:18px}
 .sw{display:flex;flex-wrap:wrap;gap:7px;margin-top:6px}.sw button{width:30px;height:30px;border-radius:50%!important;border:2px solid rgba(255,255,255,.2)!important;padding:0!important}
@@ -163,6 +164,8 @@ input.vs{width:100%;accent-color:#ffb52e;height:28px}
 .card .big.red,.gtop #g-done{height:56px;border-radius:30px!important;background:radial-gradient(circle at 40% 30%,#ff6a50,#b8231a 60%,#6d120c)!important;border:5px solid #2a2a2a!important;box-shadow:0 5px 0 #111,0 8px 12px rgba(0,0,0,.5)!important;color:#fff!important;font:900 22px Inter,system-ui,sans-serif!important;letter-spacing:.08em;text-transform:uppercase;text-shadow:0 2px 0 #6d120c;margin-top:16px}
 .card .big.red:active,.gtop #g-done:active{transform:translateY(3px);box-shadow:0 2px 0 #111!important}
 .gtop{margin-bottom:8px}.gtop b{background:#efe3b8;color:#1a1a1a;transform:rotate(-2deg);padding:3px 14px;font:700 20px Oswald,'DejaVu Sans Condensed',sans-serif;text-transform:uppercase;letter-spacing:.06em;box-shadow:0 3px 6px rgba(0,0,0,.35)}
+.gtop #g-done{position:relative;overflow:hidden;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;touch-action:manipulation}
+.gtop #g-done::after{content:'';position:absolute;left:0;top:0;bottom:0;width:var(--hold,0%);background:rgba(255,255,255,.35);pointer-events:none}
 .gtop #g-done{height:40px;margin:0;font-size:15px!important;border-width:3px!important;padding:0 18px}
 .sw button{border-color:rgba(0,0,0,.35)!important}.sw button.sel{border:3px solid #1a1a1a!important;box-shadow:0 0 0 2px #ff8a2a}
 #joym{position:relative}
@@ -312,6 +315,7 @@ input.vs{width:100%;accent-color:#ffb52e;height:28px}
   <p class="err" id="m-err"></p>
 </div></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script>
 const CHANGELOG=[["v0.39",["Play vs AI opens an offline lobby: set the number of bots, the map and the rules, then Start. Exit returns to it","Fixed: the trailer frame drawn at the wrong angle after changing the deck length"]],["v0.38",["Lobby Rules menu: the host picks a 6 m, 5 m or 4.5 m trailer deck"]],["v0.37",["Parking pauses while another car has two tyres on the trailer ramps","Ghost passes through Monster Truck tyres too (and every other item)","Ghost and Chrome cancel each other","Fixed: broken-off parts getting stuck under cars and lifting the drive wheels. Debris can no longer push or prop up a car, bumpers have a bigger hitbox, and tyres no longer ride on debris"]],["v0.36",["Fake Crate now blows up at the front of the car it sticks to, hitting anything within a few metres: ram someone before it goes off and they take damage too"]],["v0.35",["Free1 updated","Tow hook: Drop Chain button (above the item button) lets go early; the item key does it too","Oil slick only spins you if two tyres hit it within a second","Monster Truck: totals the first car you drive over, then ends once you are off it; 15% faster while active","Wrecking ball is twice as heavy","Chrome now splits a punch: both cars take half"]],["v0.34",["Double 8s updated"]],["v0.33",["New map: Free1","Minimap in the top-right corner; tap it to shrink or show it","Fixed: on the in-game lobby screen the menu volume and full screen buttons covered the Exit button"]],["v0.32",["Punching a chromed car bounces the whole hit back into the puncher"]],["v0.31",["New map: Double 8s","Monster Truck item: huge tyres for 10 s, stays upright and drives over other cars","Oil Slick replaces Spikes: cars that hit it lose grip and spin","Tow hook: reels the cars together until they are within chain length, then the chain holds hard","Hover floats over barrel walls","Keyboard: WASD, Shift boost, Ctrl reverse, Alt look behind, Space item (hold Space and press W/S/A/D to aim), R respawn; rebind in Settings > Edit controls","Map maker: Start New or Edit Map, paint dirt with brush sizes, separate truck path with branches, ramps, barrel walls, movable stands/trees/hay (none on a new map), truck and trailer for scale, bot count for test drives"]],["v0.30",["Fixed: the map picker showed Derby Classic while Monster Truck Madness was loaded, so picking Derby Classic did nothing"]],["v0.29",["Map select: pick Derby Classic or Monster Truck Madness on the Play screen; the host can change it in the lobby and everyone switches"]],["v0.28",["Spring: tap to jump straight up and keep your speed; hold, drag up and release to leap forward (controller: Square + stick up)"]],["v0.27",["Ghosted cars drive straight through Fake Crates","New map: Elijah's Map, made in the map maker","While holding gas, reverse or hand brake, slide your finger up to look behind"]],["v0.26",["Map maker: tap the wrench in the corner of the changelog. Shape the track, add shortcuts and crates, set the start, test drive it, and export a map code or file to share","New item: Punch. A punching bag on a spring shoots out of your side and slams the car next to you (drag left/right on the item button, or Square + left stick)","Fake Crate now sticks to the front of the car that grabs it and flashes orange for a second before it blows","Backward Wrecking Ball keeps its full speed; the ball launches lower","Ramp side rails removed; cars now catch the side of a ramp instead of driving up it","Spectator mode fixed for online games"]],["v0.25",["Reverse and hand brake can no longer be used together; the hand brake wins"]],["v0.24",["Leftover tow chains are cleaned up, no more floating chains"]],["v0.23",["New item: Fake Crate. Drops a decoy item crate behind you that blows up whoever drives into it","Tow Hook can hook the truck or trailer: it reels you in without hurting the rig","Tow chain is now a soft chain that draws cars together when the hook lands beyond its length, and every player sees the hook and chain","Respawning releases your tow chain from whoever you hooked","Wrecking Ball: hold the item button and drag up to lob it, drag down to look back and fire it behind you (controller: hold Square and push the left stick); it flies further and only does impact damage","Nitro: hold the item button to burn it; let go to save the rest","Chrome makes your car immune to damage","Pick up items while hovering; LAND is its own button","Spring: no damage from the landing","Spectator mode: the eye button in game, or Spectate in the lobby; arrows switch who you watch","Ramps have side rails, so hitting a ramp from the side shoves the trailer","Stronger reverse","Cars losing panels show a dark inside instead of see-through holes"]],["v0.22",["Paint Bomb replaced by the Wrecking Ball: fires a heavy iron ball at medium speed that bounces with real physics, knocks cars around and wrecks them"]],["v0.21",["Ghost item: your car turns see-through, breaks any tow chain on you, and no item can hit you (respawn protection still blinks)","Tow hook flies as a hook trailing a real chain, and the tow line is a chain","Controller players see their current item on screen"]],["v0.20",["Accessories rebuilt to fit each car: wings and lip spoilers follow the trunk or roof, roof racks and light bars sit on the roofline, bull bars follow the front bumper, ornaments sit on the hood","Racing stripes stay on the top surfaces","Exhaust tips on every new car; boost flames come out of them","Wider shortcut lanes and the truck carries more speed into them"]],["v0.19",["New car models (Quaternius): Coupe, Sedan, Hatch, Wagon and Muscle, with breakable hoods, trunks, doors, bumpers, mirrors and wheels","Garage camera: drag to rotate, pinch or mouse wheel to zoom (no more auto-spin)","Hover: gas now accelerates properly, the item button shows LAND with time left, tap it to come down early","Truck carries more speed into the shortcut corners"]],["v0.18",["New item crate layout: 18 crates","License plates centered","Title sign shrinks above the pegboard on portrait sub-menus","Fixed a crash when the browser blocks game controller access"]],["v0.17",["Pegboard style for Play, Find Match, lobby, Settings, Garage and Changelog panels","Portrait menus stack top to bottom","Screen shake no longer shows the undimmed scene at the edges","Menu art no longer gets recolored by phone dark modes (Samsung Internet)","Cars already holding an item drive straight through crates"]],["v0.16",["Main menu matched to the junkyard design: darker dusk scene, bigger title sign and plates","Title sign starts swinging smoothly instead of jumping"]],["v0.15",["New junkyard main menu: rusted steel title sign on chains, license-plate buttons, dusk floodlights","Title sign drops in and the screen shakes on the intro crash","Version and changelog moved to a bumper sticker"]],["v0.14",["Item crates on the track. Drive through one to get a random item, tap the item button to use it (controller: Square): Nitro, Tow Hook, Chrome, Spikes, Hover, Paint Bomb, Spring Jump, Ghost","REAR button to look behind (controller: L1); hand brake is Cross only on controller now","Truck reads bends properly and takes the shortcut curves and oval turns much slower"]],["v0.13",["Truck drives smoother: gentler steering, lane changes and brake checks, so cars on the trailer slide much less","Truck slows down earlier for corners and comes out of them slower","Tires hold the deck better before sliding","Parking progress bar moved to the top of the screen"]],["v0.12",["Removed invisible debris that piled up on the track every round","Boost bar always shown under your car","Parking also pauses when another car has 2 tires on the ramps or trailer","Big parking progress bar: green when it's you, red when it's another player","Ramming another player on the trailer now actually pushes them"]],["v0.11", ["Doors fit between the wheel arches and sit flush with the body", "Muscle car is now rear-wheel drive", "Boost: double-tap GAS and hold (controller: R1 or Circle); a boost bar shows over your car", "You ride along on the ramps instead of rolling back down", "Easier to drive onto a ramp from the side", "Parking pauses while two cars are on the trailer", "A totalled car on the trailer can still finish parking", "Hand brake now brakes, and on the trailer locks your drive wheels", "Samsung dark mode no longer dulls the colors"]], ["v0.10", ["Pickup truck (RWD) is back", "Every model handles differently: Coupe steers sharpest, Muscle accelerates fastest, Sedan is fastest, Hatch grips most, Wagon is the all-rounder, Pickup is heaviest", "Real hood ornaments: Longhorns, Eagle, Skull, Flames", "Chrome paint, brighter colors and real reflections", "Wheel-arch flares and side skirts", "New menu with a crash intro and animated title", "Volume sliders (master, engines, effects)", "Trailer feels the weight of cars on it, including other players' cars; heavier trailer"]], ["v0.09", ["Holding boost no longer gives endless boost", "Ramps can't fold under the trailer anymore", "3 seconds of no-collide after respawning", "Straightaways 75% longer"]], ["v0.08", ["Truck totalled or stuck for 10 s ends the round", "Starting grid rotates each round", "Sounds: engines, truck, skids, crashes, boost, countdown", "More customization: accent color, hood ornament, roof, bull bar, window tint", "Parking now takes 5 seconds", "Add to Home screen for true full screen"]], ["v0.07", ["Boost also gives full gas"]], ["v0.06", ["Boost strength halved"]], ["v0.05", ["Boost", "Stronger, heavier truck that pushes through cars", "Trailer can't flip completely over", "Fixed dark lines on the dirt"]], ["v0.04", ["Full screen button"]], ["v0.03", ["Fixed lobbies not showing up", "PS5 controller support"]], ["v0.02", ["Lobby browser: Find Match, Host Match, Play vs AI", "Renamed to King Of the Hill - Derby"]], ["v0.01", ["First release"]]];
@@ -552,14 +556,17 @@ const MODELS=[
  {name:'Hatch',cab:{w:1.66,h:.6,l:2.45,z:-.6,rf:.38,rr:.14},doors:4,trunk:false,h:{vs:1.4,yaw:.9,mass:1250,acc:.95,top:26.5,steer:1.15,mu:1.28},note:'Most grip'},
  {name:'Wagon',cab:{w:1.68,h:.6,l:2.85,z:-.45,rf:.36,rr:.05},doors:4,trunk:false,h:{vs:1.5,yaw:1.05,mass:1450,acc:1.05,top:28,steer:1.08,mu:1.17},note:'All-rounder'},
  {name:'Muscle',cab:{w:1.58,h:.5,l:1.75,z:-.55,rf:.45,rr:.42},doors:2,trunk:true,scoop:true,h:{vs:1.7,yaw:1.05,mass:1500,acc:1.38,top:29,steer:.92,mu:1.08,rwd:true},note:'Fastest acceleration, RWD'},
- {name:'Pickup',cab:{w:1.62,h:.6,l:1.45,z:.42,rf:.32,rr:.04},doors:2,trunk:false,bed:true,h:{vs:1.95,yaw:1.35,mass:2100,acc:1.25,top:26,steer:.88,mu:1.12,rwd:true},note:'Heaviest, hard to push around, RWD'}];
+ {name:'Pickup',cab:{w:1.62,h:.6,l:1.45,z:.42,rf:.32,rr:.04},doors:2,trunk:false,bed:true,h:{vs:1.95,yaw:1.35,mass:2100,acc:1.25,top:26,steer:.88,mu:1.12,rwd:true},note:'Heaviest, hard to push around, RWD'},
+ // drawn from a Meshy .glb (see attachGLB); paint and dents don't apply to it. Keep this entry last.
+ {name:'Mustang',secret:true,glb:'mustang.glb?v=3',cab:{w:1.58,h:.5,l:1.75,z:-.55,rf:.45,rr:.42},doors:2,trunk:true,scoop:true,h:{vs:.85,yaw:.6,mass:2200,acc:2.05,top:31,steer:1.4,mu:1.32,rwd:true},note:'Secret car, everything maxed, RWD'}];
+const PUBLIC_M=MODELS.filter(m=>!m.secret).length;let secretOn=false;try{secretOn=localStorage.getItem('kohd_secret')==='1'}catch(e){}
 const CAR={L:4.4,W:1.88,H:.55,clr:.22,R:.37,mass:1400,eng:1400*7,top:27.3,rev:9,mu:1.15,vsat:1.6,hcg:.5,hp:100,hh:.66};
 const STRIPES=['None','Racing','Side'],RIMS=['Spoke','Steel','Dish'],SPOILERS=['None','Lip','Wing'];
 const ACCENTS=[0x2e2e2e,0xdfe3e8,0xd8b04a,0xd6302a,0xf4f4f4,0x2f86ff,0x35c46a,0xff7a1a],ORNAMENTS=['None','Longhorns','Eagle','Skull','Flames'],ROOFS=['None','Rack','Lights'],FRONTS=['Stock','Bull bar'],TINTS=['Dark','Light','Blue'],TINT_C=[0x1b2632,0x6a7a88,0x1f3f6a];
 function parseCfg(t){const a=String(t||'').split('.').map(Number),v=(i,n)=>Number.isFinite(a[i])?((a[i]%n)+n)%n:0;return{m:v(0,MODELS.length),p:v(1,PAINTS.length),s:v(2,3),sc:v(3,PAINTS.length),r:v(4,3),rc:v(5,RIMCOLS.length),w:v(6,3),ac:v(7,ACCENTS.length),ho:v(8,ORNAMENTS.length),rf:v(9,ROOFS.length),fr:v(10,FRONTS.length),wt:v(11,TINTS.length)}}
 function cfgStr(c){return[c.m,c.p,c.s,c.sc,c.r,c.rc,c.w,c.ac,c.ho,c.rf,c.fr,c.wt].join('.')}
-function randCfg(){const r=n=>rand(0,n)|0;return cfgStr({m:r(MODELS.length),p:r(12),s:r(3),sc:r(12),r:r(3),rc:r(4),w:r(3),ac:r(ACCENTS.length),ho:Math.random()<.5?0:r(ORNAMENTS.length),rf:Math.random()<.6?0:r(ROOFS.length),fr:Math.random()<.7?0:1,wt:r(3)})}
-function carSpec(cfg){const M=MODELS[cfg.m],h=M.h;return Object.assign({},CAR,{cab:M.cab,doors:M.doors,trunk:M.trunk,scoop:M.scoop,bed:M.bed,name:M.name,mass:h.mass,eng:1400*7*h.acc,top:h.top,steer:h.steer,mu:h.mu,rwd:!!h.rwd,vsat:h.vs,yaw:h.yaw})}
+function randCfg(){const r=n=>rand(0,n)|0;return cfgStr({m:r(PUBLIC_M),p:r(12),s:r(3),sc:r(12),r:r(3),rc:r(4),w:r(3),ac:r(ACCENTS.length),ho:Math.random()<.5?0:r(ORNAMENTS.length),rf:Math.random()<.6?0:r(ROOFS.length),fr:Math.random()<.7?0:1,wt:r(3)})}
+function carSpec(cfg){const M=MODELS[cfg.m],h=M.h;return Object.assign({},CAR,{cab:M.cab,doors:M.doors,trunk:M.trunk,scoop:M.scoop,bed:M.bed,name:M.name,glb:M.glb,mass:h.mass,eng:1400*7*h.acc,top:h.top,steer:h.steer,mu:h.mu,rwd:!!h.rwd,vsat:h.vs,yaw:h.yaw})}
 const RIM_MATS=RIMCOLS.map(c=>mStd(c,{roughness:.28,metalness:.85}));
 function stripeMat(base,st,dir){/*paint with a stripe*/const cv=document.createElement('canvas');cv.width=cv.height=64;const x=cv.getContext('2d');const hx=n=>'#'+n.toString(16).padStart(6,'0');x.fillStyle=hx(base);x.fillRect(0,0,64,64);x.fillStyle=hx(st);
  if(dir==='v'){x.fillRect(19,0,9,64);x.fillRect(36,0,9,64)}else{x.fillRect(0,25,64,12)}
@@ -673,7 +680,40 @@ function buildModelVehicle(S,color,vis,M){
   const inner=new THREE.Mesh(new THREE.CircleGeometry(.036,8),darkM);inner.position.set(0,-.05,0);inner.rotation.x=Math.PI/2;tip.add(inner);tip.castShadow=true;if(rbD){tip.position.sub(rbD.obj.position);rbD.obj.add(tip)}else g.add(tip)}
  const ex=[ey,Math.min(...ezs)-.08];
  return{g,parts,det,wheels,hh,base,top:A.belt,ex}}
+// ---------- Meshy .glb cars ----------
+// The built-in car is still built (physics, damage, wheels) but hidden, and the .glb is drawn in its place. The .glb
+// faces -X with its long axis on X; wheel nodes wheel_FL/FR/RL/RR are pivoted at the hub (axle on the model's Z,
+// extras.radius = tyre radius in model units) and follow the hidden wheels every frame (glbWheels).
+const GLB={},GLB_QM=new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,1,0),Math.PI/2),GLB_QMI=GLB_QM.clone().invert();
+function glbGet(url,cb){let e=GLB[url];
+ if(!e){e=GLB[url]={q:[],tpl:null};
+  const fail=err=>{console.warn(url+' failed to load, using the built-in car',err);e.q=null};
+  try{new THREE.GLTFLoader().load(url,gl=>{
+   // Meshy textures are atlases of tiny UV islands; mipmaps blend neighbouring islands into seams, so sample full size only
+   gl.scene.traverse(o=>{if(!o.isMesh)return;o.castShadow=true;o.receiveShadow=false;const mt=o.material;if(!mt)return;if(mt.map)mt.map.encoding=THREE.LinearEncoding;
+    for(const k of['map','normalMap','roughnessMap','metalnessMap','aoMap','emissiveMap']){const t=mt[k];if(t){t.generateMipmaps=false;t.mipmaps=[];t.minFilter=THREE.LinearFilter;t.magFilter=THREE.LinearFilter;t.needsUpdate=true}}});
+   e.tpl=gl.scene;const q=e.q;e.q=null;for(const f of q)f(e.tpl)},undefined,fail)}catch(err){fail(err)}}
+ if(e.tpl)cb(e.tpl);else if(e.q)e.q.push(cb)}
+function attachGLB(V,S){
+ for(const w of V.wheels)w.p0=w.o.position.clone();
+ if(!THREE.GLTFLoader)return;
+ glbGet(S.glb,tpl=>{
+  const m=tpl.clone(true),w=new THREE.Group(),bx=new THREE.Box3(),sz=new THREE.Vector3(),c=new THREE.Vector3();
+  m.traverse(o=>{if(o.isMesh)o.material=o.material.clone()});  // own materials, so ghost/chrome effects only touch this car
+  m.quaternion.copy(GLB_QM);w.add(m);w.updateMatrixWorld(true);bx.setFromObject(m).getSize(sz);
+  m.scale.setScalar(S.L/sz.z);w.updateMatrixWorld(true);bx.setFromObject(m).getCenter(c);m.position.set(-c.x,V.base-bx.min.y,-c.z);
+  const gw=[];m.traverse(o=>{const k=/^wheel_([FR])([LR])$/.exec(o.name);if(!k)return;
+   const src=V.wheels.find(q=>q.front===(k[1]==='F')&&q.side===(k[2]==='L'?1:-1));
+   if(src)gw.push({o,src,p0:o.position.clone(),s:m.scale.x,k:(src.r||S.R)/((o.userData.radius||.155)*m.scale.x)})});
+  for(const ch of V.g.children)ch.visible=false;V.g.add(w);V.wheels.glb=gw;glbWheels(gw)})}
+// copy each hidden wheel's pose (steer, hover tilt, spin, suspension travel, Monster Truck size) onto its .glb wheel
+const _gq=new THREE.Quaternion(),_gq2=new THREE.Quaternion(),_ge=new THREE.Euler(),_gv=new THREE.Vector3();
+function glbWheels(gw){for(const q of gw){const w=q.src;q.o.visible=w.on;if(!w.on)continue;
+ _gq.copy(w.o.quaternion).multiply(_gq2.setFromEuler(_ge.set(w.m.rotation.x*q.k,0,0)));
+ q.o.quaternion.copy(GLB_QMI).multiply(_gq).multiply(GLB_QM);
+ _gv.subVectors(w.o.position,w.p0).applyQuaternion(GLB_QMI).divideScalar(q.s);q.o.position.copy(q.p0).add(_gv);q.o.scale.copy(w.m.scale)}}
 function buildVehicle(S,color,chrome,vis){
+ if(S.glb&&!S._glbInner){const V=buildVehicle(Object.assign({},S,{_glbInner:true}),color,chrome,vis);attachGLB(V,S);return V}
  if(vis&&!chrome&&typeof CARMODELS!=='undefined'&&CARMODELS[S.name])return buildModelVehicle(S,color,vis,CARMODELS[S.name]);
  const g=new THREE.Group();g.rotation.order='YXZ';
  const C=S.cab,hh=S.hh||(S.clr+S.H+C.h)/2,base=-hh,W2=S.W-.12,L2=S.L-.34,bodyY=base+S.clr+S.H/2,top=base+S.clr+S.H;
@@ -847,6 +887,23 @@ const truckV=buildVehicle(HAULER,0xe9e5dc,true);
 truckV.det.forEach(p=>p.off=true);
 for(const sx of[1,-1]){const o=new THREE.Group();o.position.set(sx*(HAULER.W/2+.12),truckV.base+HAULER.R,-(HAULER.L-.34)/2+HAULER.R+.42);truckV.g.add(o);const m=makeWheel(HAULER.R,sx);o.add(m);truckV.wheels.push({o,m,front:false,side:sx,on:true})}
 truckV.g.traverse(o=>{if(o.isMesh)o.castShadow=true});scene.add(truckV.g);
+// custom hauler model: towtruck.glb (long axis X, front facing -X). Scaled to the hauler's length and sat on its wheel line.
+// The built-in hauler stays as the fallback until the model loads (or if it fails to).
+try{if(THREE.GLTFLoader)new THREE.GLTFLoader().load('towtruck.glb?v=dually3',gl=>{
+ const m=gl.scene,w=new THREE.Group(),bx=new THREE.Box3(),sz=new THREE.Vector3(),c=new THREE.Vector3();
+ m.rotation.y=Math.PI/2;w.add(m);w.updateMatrixWorld(true);bx.setFromObject(m).getSize(sz);
+ m.scale.setScalar(HAULER.L*1.1/sz.z);w.updateMatrixWorld(true);bx.setFromObject(m).getCenter(c);
+ m.position.set(-c.x,truckV.base-bx.min.y,-c.z);
+ // the texture is an atlas of tiny UV islands; mipmaps blend neighbouring islands into pale/dark seams, so sample full size only
+ const noMip=t=>{if(!t)return;t.generateMipmaps=false;t.mipmaps=[];t.minFilter=THREE.LinearFilter;t.magFilter=THREE.LinearFilter;t.needsUpdate=true};
+ m.traverse(o=>{if(!o.isMesh)return;o.castShadow=true;o.receiveShadow=false;const mt=o.material;if(!mt)return;if(mt.map)mt.map.encoding=THREE.LinearEncoding;
+  for(const k of['map','normalMap','roughnessMap','metalnessMap','aoMap','emissiveMap'])noMip(mt[k])});
+ // wheel_FL/FR/RL/RR are pivoted at the hub (axle = model Z = hauler X). Each one copies the spin (and steer, for the
+ // fronts) of the matching built-in hauler wheel, which updateTruckVis keeps updating even while hidden.
+ truckV.glbW=[];m.traverse(o=>{const k=/^wheel_([FR])([LR])$/.exec(o.name);if(!k)return;const front=k[1]==='F',side=k[2]==='L'?1:-1;
+  const src=truckV.wheels.find(q=>q.front===front&&q.side===side);if(src){o.rotation.order='YZX';truckV.glbW.push({o,src,front,k:HAULER.R/(0.1555*m.scale.x)})}});  // k: built-in wheel radius / model tyre radius, so the tread rolls at road speed
+ for(const ch of truckV.g.children)ch.visible=false;truckV.g.add(w);
+},undefined,e=>console.warn('towtruck.glb failed to load, using built-in hauler',e))}catch(e){}
 const trailerG=new THREE.Group();scene.add(trailerG);const RAMPV=[];const trailerWheels=[];
 function buildTrailerVis(){while(trailerG.children.length)trailerG.remove(trailerG.children[0]);trailerWheels.length=0;for(const R0 of RAMPV)scene.remove(R0.g);RAMPV.length=0;
 const steel=mStd(0x34383d,{metalness:.6,roughness:.5}),wood=new THREE.MeshStandardMaterial({map:woodTex,roughness:.9}),plate=new THREE.MeshStandardMaterial({map:plateTex,metalness:.35,roughness:.6});
@@ -1453,6 +1510,7 @@ function updateCars(dt){
    const hov=remote?(c.fxBits&2):(c.hoverT>0);w.o.rotation.z+=((hov?w.side*Math.PI/2:0)-w.o.rotation.z)*Math.min(1,dt*10);
    if(vw&&!remote){w.o.position.y=vw.y-Math.min(vw.susp,vw.rest)+(w.dy||0);vw.spin+=(vw.contact?vw.vlo:vw.vlo*=.99)*dt/(w.r||c.S.R);w.m.rotation.x=vw.spin;if(w.front)w.o.rotation.y=c.wrecked?w.o.rotation.y:c.delta}
    else{c.spin+=fwd*dt/c.S.R;w.m.rotation.x=c.spin;if(w.front&&!c.wrecked)w.o.rotation.y+=(-sv*.45-w.o.rotation.y)*Math.min(1,dt*10)}}
+  if(c.wheels.glb)glbWheels(c.wheels.glb);
   for(const p of c.det){if(p.type!=='door'||!p.loose||p.off)continue;
    const tq=-p.side*fwd*c.w*.6-fwd*.35*Math.sin(p.ang)+rand(-1,1)*Math.abs(fwd)*.15;p.angV+=(tq-2.2*p.angV)*dt;p.ang+=p.angV*dt;
    if(p.ang<0){p.ang=0;p.angV=-p.angV*.3}
@@ -1480,6 +1538,7 @@ function updateTruckVis(dt){
  if(!physReady)return;
  setPose(truckV.g,TRK);setPose(trailerG,TRL);
  const tw=TRK.V.wl;for(let i=0;i<6;i++){const w=truckV.wheels[i],vw=tw[i<4?i:i-2];w.o.position.y=vw.y-Math.min(vw.susp,vw.rest);if(i<4)vw.spin+=vw.vlo*dt/HAULER.R;w.m.rotation.x=vw.spin;if(w.front)w.o.rotation.y=TK.steer}
+ if(truckV.glbW)for(const q of truckV.glbW)q.o.rotation.set(0,q.front?q.src.o.rotation.y:0,q.src.m.rotation.x*q.k);
  for(let i=0;i<4;i++){const w=trailerWheels[i],vw=TRL.V.wl[i];w.o.position.y=vw.y-Math.min(vw.susp,vw.rest);vw.spin+=vw.vlo*dt/.36;w.m.rotation.x=vw.spin}
  const sp=Math.abs(TRL.vx*TRL.s+TRL.vz*TRL.co);
  for(const R0 of RAMPV){const b=R0.body,t=b.translation(),q=b.rotation();R0.g.position.set(t.x,t.y,t.z);R0.g.quaternion.set(q.x,q.y,q.z,q.w);
@@ -1665,7 +1724,7 @@ $('b-exit').addEventListener('click',()=>{if(R&&R.offline&&!TEST_LEVEL)offlineLo
 // ---------- rooms / net ----------
 const MAXP=8,PROTO=2;let dir=null,dirReady=false,dirMode='',dirLast='';
 let myJoined=0,chReady=false,sb=null,ch=null,net=false,isHost=true,hostId=null,players=[],R=null,roomCode='',offS=[],clockOff=0,shownWin=0,sendAcc=0;
-const myId=rid();let myName=store('pursuit_name')||('Driver'+((Math.random()*90+10)|0)),myCls=store('pursuit_car')||'1.0.0.6.0.0.0';
+const myId=rid();let myName=store('pursuit_name')||('Driver'+((Math.random()*90+10)|0)),myCls=store('pursuit_car')||'1.0.0.6.0.0.0';{const c=parseCfg(myCls);if(c.m>=PUBLIC_M&&!secretOn){c.m=MODELS.findIndex(m=>m.name==='Muscle');myCls=cfgStr(c)}}
 const BOTN=['Dusty','Rusty','Mags','Tex','Bubba','Gravel','Hank','Skid'];
 const hostNow=()=>Date.now()+(isHost?0:clockOff);
 const truckTime=()=>R&&R.phase==='play'?(hostNow()-R.t0)/1000:-5;
@@ -1818,11 +1877,20 @@ function buildShow(){if(show){scene.remove(show.g);show.g.traverse(o=>{if(o.isMe
 function garageUI(){const cfg=parseCfg(myCls),hx=n=>'#'+n.toString(16).padStart(6,'0');
  const seg=(id,names,key)=>{const el=$(id);el.innerHTML='';names.forEach((n,i)=>{const b=document.createElement('button');b.textContent=n;if(cfg[key]===i)b.classList.add('sel');b.onclick=()=>setCfg(key,i);el.appendChild(b)})};
  const sw=(id,cols,key)=>{const el=$(id);el.innerHTML='';cols.forEach((c,i)=>{const b=document.createElement('button');b.style.background=hx(c);if(cfg[key]===i)b.classList.add('sel');b.setAttribute('aria-label','color '+i);b.onclick=()=>setCfg(key,i);el.appendChild(b)})};
- seg('g-m',MODELS.map(m=>m.name),'m');$('g-m').classList.add('gseg6');{const H=MODELS[cfg.m].h,rows=[['Accel',(1400*7*H.acc/H.mass)/9],['Top speed',(H.top-24)/7],['Steering',(H.steer/H.vs/H.yaw)/1.7],['Grip',(H.mu-.95)/.36],['Weight',H.mass/2200]];$('g-st').innerHTML=rows.map(r=>'<span>'+r[0]+'</span><i style="width:'+Math.round(clamp(r[1],.08,1)*100)+'%"></i>').join('');$('g-note').textContent=MODELS[cfg.m].note+(H.rwd?'':' · FWD')}sw('g-p',PAINTS,'p');seg('g-s',STRIPES,'s');sw('g-sc',PAINTS,'sc');$('g-sc').style.display=cfg.s?'flex':'none';seg('g-r',RIMS,'r');sw('g-rc',RIMCOLS,'rc');seg('g-w',SPOILERS,'w');sw('g-ac',ACCENTS,'ac');seg('g-ho',ORNAMENTS,'ho');seg('g-rf',ROOFS,'rf');seg('g-fr',FRONTS,'fr');seg('g-wt',TINTS,'wt')}
+ seg('g-m',MODELS.slice(0,secretOn?MODELS.length:PUBLIC_M).map(m=>m.name),'m');$('g-m').classList.add('gseg6');{const H=MODELS[cfg.m].h,rows=[['Accel',(1400*7*H.acc/H.mass)/9],['Top speed',(H.top-24)/7],['Steering',(H.steer/H.vs/H.yaw)/1.7],['Grip',(H.mu-.95)/.36],['Weight',H.mass/2200]];$('g-st').innerHTML=rows.map(r=>'<span>'+r[0]+'</span><i style="width:'+Math.round(clamp(r[1],.08,1)*100)+'%"></i>').join('');$('g-note').textContent=MODELS[cfg.m].note+(H.rwd?'':' · FWD')}sw('g-p',PAINTS,'p');seg('g-s',STRIPES,'s');sw('g-sc',PAINTS,'sc');$('g-sc').style.display=cfg.s?'flex':'none';seg('g-r',RIMS,'r');sw('g-rc',RIMCOLS,'rc');seg('g-w',SPOILERS,'w');sw('g-ac',ACCENTS,'ac');seg('g-ho',ORNAMENTS,'ho');seg('g-rf',ROOFS,'rf');seg('g-fr',FRONTS,'fr');seg('g-wt',TINTS,'wt')}
 function setCfg(k,v){const c=parseCfg(myCls);c[k]=v;myCls=cfgStr(c);store('pursuit_car',myCls);garageUI();buildShow();if(ch&&chReady)ch.track({id:myId,name:myName,cls:myCls,joined:myJoined,spec})}
 function openGarage(){endIntro();$('vbox').style.display='none';garageOn=true;$('menu').style.display='none';$('garage').style.display='block';garageUI();buildShow()}
 function closeGarage(){$('vbox').style.display='flex';garageOn=false;garageVO=-1;camera.clearViewOffset();camera.updateProjectionMatrix();$('garage').style.display='none';$('menu').style.display='';bakeSoon();if(show){scene.remove(show.g);show=null}}
-$('b-garage').addEventListener('click',openGarage);$('g-done').addEventListener('click',closeGarage);
+$('b-garage').addEventListener('click',openGarage);{const d=$('g-done');let t0=0,raf=0,eat=false;
+ const stop=()=>{t0=0;cancelAnimationFrame(raf);d.style.setProperty('--hold','0%')};
+ const tick=()=>{if(!t0)return;const e=performance.now()-t0;d.style.setProperty('--hold',e<1000?'0%':Math.min(100,(e-1000)/40)+'%');
+  if(e>=5000){stop();eat=true;if(!secretOn){secretOn=true;store('kohd_secret','1')}setCfg('m',MODELS.length-1);
+   const nm=$('g-name');nm.textContent='MUSTANG UNLOCKED';setTimeout(()=>{if(garageOn)nm.textContent=MODELS[parseCfg(myCls).m].name},2500);return}
+  raf=requestAnimationFrame(tick)};
+ d.addEventListener('pointerdown',()=>{eat=false;t0=performance.now();raf=requestAnimationFrame(tick)});
+ for(const ev of['pointerup','pointerleave','pointercancel'])d.addEventListener(ev,stop);
+ d.addEventListener('contextmenu',e=>e.preventDefault());
+ d.addEventListener('click',()=>{if(eat){eat=false;return}closeGarage()})}
 
 // ---------- hud ----------
 let hudT=0;
